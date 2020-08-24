@@ -1,6 +1,8 @@
 const express = require('express');
 // bring in express router
 const router = express.Router();
+// bring in validator
+const { check, validationResult } = require('express-validator');
 
 // @route    POST api/users
 // @desc     Register user

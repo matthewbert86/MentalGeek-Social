@@ -2,8 +2,6 @@
 const express = require('express');
 // Bring in our Database
 const connectDB = require('./config/db');
-// bring in validator
-const { check, validationResult } = require('express-validator');
 
 // Initialize app variable with express
 const app = express();
