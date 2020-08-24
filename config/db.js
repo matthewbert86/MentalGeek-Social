@@ -24,4 +24,7 @@ const connectDB = async () => {
   }
 };
 
+// This will fix the depreciation warning for collection.ensureIndex
+mongoose.set('useCreateIndex', true);
+
 module.exports = connectDB;
