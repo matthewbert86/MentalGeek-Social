@@ -91,9 +91,39 @@ router.post(
       profileFields.skills = skills.split(',').map((skill) => skill.trim());
     }
 
-    console.log(profileFields.skills);
+    // Build social object
+    profileFields.social = {};
+    if (youtube) profileFields.social.youtube = youtube;
+    if (twitter) profileFields.social.twitter = twitter;
+    if (facebook) profileFields.social.facebook = facebook;
+    if (linkedin) profileFields.social.linkedin = linkedin;
+    if (instagram) profileFields.social.instagram = instagram;
 
-    res.send('Hello');
+    // Update and instert data in the fields
+    try {
+      let profile = await Profile.findOne({ user: req.user.id });
+
+      if (profile) {
+        // Update
+        profile = await Profile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: profileFields },
+          { new: true }
+        );
+
+        // return entire profile if its found
+        return res.json(profile);
+      }
+
+      // Create profile if no profile is found
+      profile = new Profile(profileFields);
+      // save profile
+      await profile.save();
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
   }
 );
 
