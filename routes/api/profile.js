@@ -44,10 +44,7 @@ router.post(
   [
     auth,
     [
-      check('status', 'Status is required')
-        .not()
-        .isEmpty(),
-      check('skills', 'Skills is required')
+      check('bio', 'Bio is required')
         .not()
         .isEmpty(),
     ],
@@ -60,12 +57,10 @@ router.post(
 
     // Pull all the fields out
     const {
-      company,
       location,
       website,
       bio,
-      skills,
-      status,
+      hobbies,
       youtube,
       twitter,
       instagram,
@@ -76,17 +71,10 @@ router.post(
     const profileFields = {};
     // get user
     profileFields.user = req.user.id;
-    if (company) profileFields.company = company;
     if (website) profileFields.website = website;
     if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
-    if (status) profileFields.status = status;
-    if (skills) {
-      // turn skills into an array
-      // skills.split which turns a string into an array
-      // skill.trim will ensure that any spacing in string wont affect array
-      profileFields.skills = skills.split(',').map((skill) => skill.trim());
-    }
+    if (hobbies) profileFields.hobbies = hobbies;
 
     // Build social object
     profileFields.social = {};
@@ -180,17 +168,14 @@ router.delete('/', auth, async (req, res) => {
 // @desc     Add profile experience
 // @access   Private
 router.put(
-  '/experience',
+  '/hobbies',
   [
     auth,
     [
       check('title', 'Title is required')
         .not()
         .isEmpty(),
-      check('company', 'company is required')
-        .not()
-        .isEmpty(),
-      check('from', 'From date is required')
+      check('description', 'description is required')
         .not()
         .isEmpty(),
     ],
@@ -202,24 +187,11 @@ router.put(
     }
 
     // Get body data
-    const {
-      title,
-      company,
-      location,
-      from,
-      to,
-      current,
-      description,
-    } = req.body;
+    const { title, description } = req.body;
 
     // creates an object with data that user submits
     const newExp = {
       title,
-      company,
-      location,
-      from,
-      to,
-      current,
       description,
     };
 
@@ -227,7 +199,7 @@ router.put(
     try {
       const profile = await Profile.findOne({ user: req.user.id });
       // unshift makes sure that most recent additions are first
-      profile.experience.unshift(newExp);
+      profile.hobbies.unshift(newExp);
 
       await profile.save();
 
@@ -242,11 +214,11 @@ router.put(
 // @route    DELETE api/profile/experience/:exp_id
 // @desc     Delete profile experience
 // @access   Private
-router.delete('/experience/:exp_id', auth, async (req, res) => {
+router.delete('/hobbies/:exp_id', auth, async (req, res) => {
   try {
     const foundProfile = await Profile.findOne({ user: req.user.id });
 
-    foundProfile.experience = foundProfile.experience.filter(
+    foundProfile.hobbies = foundProfile.hobbies.filter(
       (exp) => exp._id.toString() !== req.params.exp_id
     );
 
