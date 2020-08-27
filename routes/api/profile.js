@@ -66,11 +66,9 @@ router.post(
       bio,
       skills,
       status,
-      githubusername,
       youtube,
       twitter,
       instagram,
-      linkedin,
       facebook,
     } = req.body;
 
@@ -83,7 +81,6 @@ router.post(
     if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
     if (status) profileFields.status = status;
-    if (githubusername) profileFields.githubusername = githubusername;
     if (skills) {
       // turn skills into an array
       // skills.split which turns a string into an array
@@ -96,7 +93,6 @@ router.post(
     if (youtube) profileFields.social.youtube = youtube;
     if (twitter) profileFields.social.twitter = twitter;
     if (facebook) profileFields.social.facebook = facebook;
-    if (linkedin) profileFields.social.linkedin = linkedin;
     if (instagram) profileFields.social.instagram = instagram;
 
     // Update and instert data in the fields

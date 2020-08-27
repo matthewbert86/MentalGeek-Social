@@ -26,9 +26,6 @@ const ProfileSchema = new mongoose.Schema({
   bio: {
     type: String,
   },
-  githubusername: {
-    type: String,
-  },
   experience: [
     {
       title: {
@@ -58,36 +55,6 @@ const ProfileSchema = new mongoose.Schema({
       },
     },
   ],
-  education: [
-    {
-      school: {
-        type: String,
-        required: true,
-      },
-      degree: {
-        type: String,
-        required: true,
-      },
-      fieldofstudy: {
-        type: String,
-        required: true,
-      },
-      from: {
-        type: Date,
-        required: true,
-      },
-      to: {
-        type: Date,
-      },
-      current: {
-        type: Boolean,
-        default: false,
-      },
-      description: {
-        type: String,
-      },
-    },
-  ],
   social: {
     youtube: {
       type: String,
@@ -96,9 +63,6 @@ const ProfileSchema = new mongoose.Schema({
       type: String,
     },
     facebook: {
-      type: String,
-    },
-    linkedin: {
       type: String,
     },
     instagram: {
